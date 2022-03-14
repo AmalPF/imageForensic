@@ -1,0 +1,49 @@
+{% extends 'image-analysis-result-base.html' %} 
+
+{% block script %}
+<script>
+    $(document).ready(function(){
+        const ctx = document.getElementById('BarChart').getContext('2d');
+        
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [ '{{ result2.model1_name }}', 
+                          '{{ result2.model2_name }}',
+                          '{{ result2.model3_name }}'
+                        ],
+                datasets: [{
+                    label: 'Fake image percentage',
+                    data: [ '{{ result2.model1_output }}', 
+                            '{{ result2.model2_output }}', 
+                            '{{ result2.model3_output }}'
+                          ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 206, 86, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+
+</script>
+{% endblock script %} 
+
+{% block content %}
+    <canvas id="BarChart"></canvas>
+{% endblock content %}

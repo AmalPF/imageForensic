@@ -1,0 +1,221 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Image Forensic</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link rel="stylesheet" href="{% static 'css/sb-admin-2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/upload-button.css' %}">
+
+    <!-- Fontawsome icons -->
+    <script src="https://kit.fontawesome.com/72bc7f96c9.js" crossorigin="anonymous"></script>
+
+    <script src="{% static 'js/upload-button.js' %}"></script>
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+                <div class="sidebar-brand-icon">
+                    <i class="fa-solid fa-magnifying-glass fa-flip-horizontal
+                    "></i>
+                </div>
+                <div class="sidebar-brand-text mx-2">F<i class="fa-solid fa-magnifying-glass"></i>rensic<sup><i class="fa-solid fa-eye"></i></sup></div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="/">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Image Analysis</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item active">
+                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseImageAnalysis" aria-expanded="true" aria-controls="collapseImageAnalysis">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Analysis Options</span>
+                </a>
+                <div id="collapseImageAnalysis" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/image-properties">Image Properties</a>
+                        <a class="collapse-item active" href="/fake-image-detection">Fake detection</a>
+                        <a class="collapse-item" href="/object-detection">Object identification</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="/about">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>About</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="/contact">
+                    <i class="fa-solid fa-address-card"></i>
+                    <span>Contact</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow py-5">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <ul class="navbar-nav ml-auto">    
+                    <div class="pt-3 px-3">
+                        <h3 style="font-family: Poppins; font-weight: 800;">Fake Image Detection</h3>
+                    </div>
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <form class="image-upload" name="image-upload-form" method="POST" enctype="multipart/form-data" action="/fake-image-detection-result/">
+                    {% csrf_token %}
+
+                    <!-- Upload button -->
+                    <div class="row p-4 font-poppins">
+                        <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+                        <div class="file-upload">
+                            <button class="file-upload-btn shadow-sm" type="button" onclick="$('.file-upload-input').trigger( 'click' )">
+                                Add Image
+                            </button>
+                            <div class="image-upload-wrap"> 
+                                <input class="file-upload-input" name="image" type='file' onchange="readURL(this);" accept="image/*" />
+                                <div class="drag-text">
+                                    <h3 style="font-size: 20px;">Drag and drop a file or select add Image</h3>
+                                </div>
+                            </div>
+                            <div class="file-upload-content">
+                                <img class="file-upload-image" src="#" alt="your image" />
+                                <div class="image-title-wrap">
+                                    <button type="button" onclick="removeUpload()" class="remove-image shadow-sm">
+                                        Remove <span class="image-title">Uploaded Image</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4"> -->
+                    <div class="col-md-12 text-center mb-4">
+                        <button type="submit" class="btn btn-lg btn-primary shadow-sm generate-report-btn"> 
+                            &nbsp;
+                            <i class="fas fa-download fa-sm text-white-50"></i> 
+                            &nbsp;Analyse Fake&nbsp;
+                        </button>
+                    </div>
+
+                </form> 
+                
+                </div>
+ 
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Image Forensic Website 2020</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
+    <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+
+</body>
+
+</html>
