@@ -2,6 +2,7 @@ from PIL.ExifTags import TAGS
 import cv2
 from PIL import Image
 import os
+import numpy as np
 from collections import Counter
 
 from imageAnalysis.models import ImageProperties
@@ -20,8 +21,7 @@ def image_properties_and_characteristics(request):
 
         result.properties = image_meta_data(image)
         result.histogram = pixel_intensity_values(image_path)
-        result.rgb_graph = rgb_channel_values(image_path)
-        print(result.rgb_graph)
+        result.r_values, result.g_values, result.b_values = rgb_channel_values(image_path)
 
         if result.properties == []:
             result.properties_found = False
@@ -57,12 +57,13 @@ def pixel_intensity_values(image):
 
 def rgb_channel_values(image_path):
     image_arr = cv2.imread(image_path)
-    res_arr = dict() 
+    res_arr = []
     for i, color in enumerate(['r', 'g', 'b']):
         temp = cv2.calcHist([image_arr],[i],None,[256],[0,256])
         temp2 = [int(x[0]) for x in temp.tolist()]
         #temp = temp.tolist()
-        res_arr[color] = temp2
+        res_arr.append(temp2)
 
-    return res_arr
+    return res_arr[0], res_arr[1], res_arr[2]
+
     

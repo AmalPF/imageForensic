@@ -25,9 +25,21 @@ function removeUpload() {
   $('.image-upload-wrap').show();
 
   $('.image-upload-wrap').bind('dragover', function () {
-  $('.image-upload-wrap').addClass('image-dropping');
+    $('.image-upload-wrap').addClass('image-dropping');
   });
   $('.image-upload-wrap').bind('dragleave', function () {
-  $('.image-upload-wrap').removeClass('image-dropping');
+    $('.image-upload-wrap').removeClass('image-dropping');
   });
+}
+
+function formValidate() {
+  if(input.files[0]) {
+    console.log("image loaded");
+    return true;
+  }
+  else {
+    console.log("image not loaded");
+    alert("Please upload an image!!");
+    return false;
+  }
 }

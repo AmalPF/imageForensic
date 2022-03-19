@@ -132,7 +132,7 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <form class="image-upload" name="image-upload-form" method="POST" enctype="multipart/form-data" action="/fake-image-detection-result/">
+                    <form class="image-upload" name="image-upload-form" method="POST" enctype="multipart/form-data" action="/fake-image-detection-result/" onsubmit="<script> alert('no image'); </script>">
                     {% csrf_token %}
 
                     <!-- Upload button -->

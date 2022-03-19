@@ -22,6 +22,11 @@ weight_reader = WeightReader(YOLO_COCO_DATA + '/yolov3.weights')
 # set the model weights into the model
 weight_reader.load_weights(model)
 
+# loading the coco.names labels
+labels = []
+with open(YOLO_COCO_DATA +"/coco.names", "r") as f:
+	labels = [line.strip() for line in f.readlines()]
+
 def object_detection_predictoin(request):
 	result = ObjectDetectionClass()
 	if request.FILES:
@@ -54,6 +59,7 @@ def object_detection_predictoin(request):
 
 
 def detect_objects(image_path):
+	global labels
 	# define the expected input shape for the model
 	input_w, input_h = 416, 416
 	# define our new photo
@@ -76,10 +82,6 @@ def detect_objects(image_path):
 	correct_yolo_boxes(boxes, image_h, image_w, input_h, input_w)
 	# suppress non-maximal boxes
 	do_nms(boxes, 0.4)
-	# define the labels
-	labels = []
-	with open(YOLO_COCO_DATA +"/coco.names", "r") as f:
-		labels = [line.strip() for line in f.readlines()]
 	v_boxes, v_labels, v_scores = get_boxes(boxes, labels, class_threshold)
 	
 	# draw what we found

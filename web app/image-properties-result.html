@@ -57,9 +57,9 @@
                     },
                     tooltips: {
                         callbacks: {
-                        label: function(tooltipItem) {
+                            label: function(tooltipItem) {
                                 return tooltipItem.tooltip_labels;
-                        }
+                            }
                         }
                     }
                 }
@@ -76,12 +76,9 @@
         Chart.defaults.global.defaultFontFamily = "Lato";
         Chart.defaults.global.defaultFontSize = 18;
 
-        var y_values1 = [1]; //JSON.parse("{{ result.rgb_graph }}");
-        var y_values2 = [2]; //JSON.parse("{{ result.rgb_graph.green }}");
-        var y_values3 = [3]; //JSON.parse("{{ result.rgb_graph.blue }}");
-        
-        console.log("{{ result.rgb_graph }}");
-        console.log(y_values1);
+        var y_values1 = JSON.parse("{{ result.r_values }}");
+        var y_values2 = JSON.parse("{{ result.g_values }}");
+        var y_values3 = JSON.parse("{{ result.b_values }}");
         
         var value_labels = [];
         for (let i = 0; i < 256; i++) {
@@ -119,8 +116,13 @@
         };
 
         var chartOptions = {
+            scales: {
+                x: {
+                    display: false
+                }
+            },
             legend: {
-                display: false
+                display: true
             }
         };
 
@@ -137,9 +139,33 @@
 {% endblock script %} 
 
 {% block content %}
-    <canvas id="BarChart"></canvas>
-{% endblock content %}
 
-{% block content2 %}
-    <canvas id="LineChart"></canvas>
-{% endblock content2 %}
+<div class="row justify-content-center">
+    <div class="col-10 col-md-10 col-lg-10 col-xl-10">
+        <!-- Bar Chart -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Grey Level Pixel Intensity Graph</h6>
+            </div>
+            <div class="card-body">
+                <canvas id="BarChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-10 col-md-10 col-lg-10 col-xl-10">
+        <!-- Line Chart -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">RGB Channel Intensity Graph</h6>
+            </div>
+            <div class="card-body">
+                <canvas id="LineChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

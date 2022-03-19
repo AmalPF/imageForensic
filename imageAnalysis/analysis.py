@@ -6,7 +6,7 @@ from skimage.transform import resize
 from PIL import Image
 
 from imageAnalysis.models import FakeImageDetectionClass
-from imageForensic.settings import BASE_DIR, STATICFILES_DIRS
+from imageForensic.settings import BASE_DIR, STATICFILES_DIRS, STATIC_ROOT
 
 
 # loading the trained models
@@ -32,24 +32,25 @@ def fake_image_detection_prediction(request):
 
         image_arr = image_preprocess(input_image)
 
-        name1, output1 = mobilenetv2_model(image_arr)
+        #name1, output1 = mobilenetv2_model(image_arr)
         name2, output2 = inceptionv3_model(image_arr) 
-        name3, output3 = vgg16_model(image_arr) 
+        #name3, output3 = vgg16_model(image_arr) 
 
-        color_class1 = "success" if output1 < 50 else "danger"
+        #color_class1 = "success" if output1 < 50 else "danger"
         color_class2 = "success" if output2 < 50 else "danger"
-        color_class3 = "success" if output3 < 50 else "danger"
+        #color_class3 = "success" if output3 < 50 else "danger"
 
-        result.model1_name, result.model1_output = name1, output1
+        #result.model1_name, result.model1_output = name1, output1
         result.model2_name, result.model2_output = name2, output2
-        result.model3_name, result.model3_output = name3, output3
-        result.model1_color = color_class1 
+        #result.model3_name, result.model3_output = name3, output3
+        #result.model1_color = color_class1 
         result.model2_color = color_class2
-        result.model3_color = color_class3 
+        #result.model3_color = color_class3 
 
-        total_percentage = output1 + output2 + output3 
+        #total_percentage = output1 + output2 + output3 
 
-        if total_percentage < 150:
+        #if total_percentage < 150:
+        if output2 < 50:
             result.conclusion = "Real Image"
             result.color_class = "text-success"
         else:
@@ -74,6 +75,10 @@ def image_preprocess(input_image):
 
     return image_arr 
 
+
+def face_detection(image):
+    
+    pass 
 
 
 def mobilenetv2_model(x):

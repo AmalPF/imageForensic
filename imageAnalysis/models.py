@@ -27,7 +27,9 @@ class FakeImageDetectionClass:
 class ImageProperties:
     properties : list 
     histogram : list 
-    rgb_graph : dict
+    r_values : list 
+    g_values : list 
+    b_values : list 
     properties_found : bool
     error : str
 

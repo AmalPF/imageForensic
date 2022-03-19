@@ -140,9 +140,7 @@
 
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Result 1 (image properties)-->
+                <div class="container-fluid"> 
 
                     <div class="row justify-content-center">
                         <div class="col-10 col-md-10 col-lg-10 col-xl-10">
@@ -161,11 +159,31 @@
                         <a href="/" class="btn btn-lg btn-warning shadow-sm generate-report-btn"> 
                             <i class="fas fa fa-picture-o fa-sm text-white-50"></i>&nbsp; Try Another Image</a>
                     </div>
+                    
 
-                    {% if result.properties_found %}
-                    <div class="row">
+                    <!-- Result 2 (fake image detection) -->
+
+                    <div class="row justify-content-center mt-5">
+
+                        <div class="container-fluid">
+                            <div class="text-center">
+                                <p class="lead text-gray-800">FAKE IMAGE PREDICTOIN</p>
+                                <div class="h1 mb-5 {{ result2.color_class }}" style="font-weight:800;">
+                                    {{ result2.conclusion }}
+                                </div>
+                            </div>                
+                        </div>     
+                        
+                    </div> 
+
+
+                    <!-- Result 1 (image properties)-->
+
+                    {% if result1.properties_found %}
+                    <div class="row mb-3">
                         <div class="container-fluid">
                             <div class="col-lg-11 col-xl-10 mx-auto">
+                                <h4 class="text-primary font-weight-bold">Image Properties</h4>
                                 <table class="table table-striped table-hover">
                                     <tbody>
                                         {% for i in result1.properties %}
@@ -190,102 +208,19 @@
                         </div>  
                     </div>
                     {% endif %}
-
-
-                    <!-- Result 2 (fake image detection) -->
-
-                    <div class="row justify-content-center">
-
-                        <div class="container-fluid">
-                            <div class="text-center">
-                                <p class="lead text-gray-800">CONCLUSION</p>
-                                <div class="h1 mb-5 {{ result2.color_class }}" style="font-weight:800;">
-                                    {{ result2.conclusion }}
-                                </div>
-                            </div>                
-                        </div>        
-
-                        <!-- Model 1 Result -->
-                        <div class="col-10 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">
-                            <div class="card border-left-{{ result2.model1_color }} shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-{{ result2.model1_color }} text-uppercase mb-1">
-                                                {{ result2.model1_name }}    
-                                            </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ result2.model1_output }} %</div>
-                                        </div>
-                                        <!--
-                                        <div class="col-auto">
-                                            <i class="fas fa-solid fa-image fa-2x text-gray-300"></i>
-                                        </div>
-                                        -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Model 2 Result -->
-                        <div class="col-10 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">
-                            <div class="card border-left-{{ result2.model2_color }} shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-{{ result2.model2_color }} text-uppercase mb-1">
-                                                {{ result2.model2_name }}    
-                                            </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ result2.model2_output }} %</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Model 3 Result -->
-                        <div class="col-10 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">
-                            <div class="card border-left-{{ result2.model3_color }} shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-{{ result2.model3_color }} text-uppercase mb-1">
-                                                {{ result2.model3_name }}    
-                                            </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ result2.model3_output }} %</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>                        
-
-                    <div class="row justify-content-center">
-
-                        <!-- Area Chart -->
-                        <div class="col-10 col-md-10 col-lg-10 col-xl-10">
-
-                            <!-- Bar Chart -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Fake Image Prediction of Models</h6>
-                                </div>
-                                <div class="card-body">
-                                    {% block content %} 
-                                    {% endblock content %} 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
+                    <!-- Grahps  -->
+                    {% block content %} 
+                    {% endblock content %}   
 
 
                     <!-- Result 3 (object detection) -->
 
-                    <div class="row justify-content-center">
+                    <div class="row justify-content-center mt-5">
                         <div class="col-10 col-md-10 col-lg-10 col-xl-10">
                             <div class="card shadow">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Output Image</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Object Detection Output</h6>
                                 </div>
                                 <div class="card-body">
                                     <img class="img-fluid mx-auto d-block" src="{{ mediaURL }}/object_detection_output.png" alt="Output Image">
@@ -319,7 +254,7 @@
                         </div>
                     </div>
                     {% else %} 
-                    <div class="row">
+                    <div class="row mt-3">
                         <div class="container-fluid">
                             <div class="text-center">
                                 <div class="h2 mb-5 text-danger" style="font-weight:600;">

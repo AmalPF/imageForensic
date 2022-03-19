@@ -2,10 +2,135 @@
 
 {% block script %}
 <script>
-    $(document).ready(function(){
+    
+    $(document).ready(function() {
+
         const ctx = document.getElementById('BarChart').getContext('2d');
+
+        var y_values = JSON.parse("{{ result1.histogram }}");
+        var tooltip_labels = []
+
+        var value_labels = [];
+        for (let i = 0; i < 256; i++) {
+            value_labels.push(i.toString());
+            tooltip_labels.push(i.toString() + " - " + y_values[i]);
+        }
+
+        const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: value_labels,
+                    datasets: [{
+                        label: 'No.of Pixels',
+                        data: y_values,
+                        backgroundColor: 'green',
+                    }]
+                },
+                options: {
+                    scales: {
+                        xAxes: [
+                            {
+                                display: false,
+                                barPercentage: 1.3,
+                                ticks: {
+                                    max: 16,
+                                }
+                            }, {
+                                display: true,
+                                ticks: {
+                                    autoSkip: true,
+                                    max: 32,
+                                }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    
+                    legend: {
+                        display: false
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.tooltip_labels;
+                            }
+                        }
+                    }
+                }
+            });
+    });
+    
+
+    $(document).ready(function() {
+
+        var colorCanvas = document.getElementById("LineChart");
+
+        Chart.defaults.global.defaultFontFamily = "Lato";
+        Chart.defaults.global.defaultFontSize = 18;
+
+        var y_values1 = JSON.parse("{{ result1.r_values }}");
+        var y_values2 = JSON.parse("{{ result1.g_values }}");
+        var y_values3 = JSON.parse("{{ result1.b_values }}");
         
-        const myChart = new Chart(ctx, {
+        var value_labels = [];
+        for (let i = 0; i < 256; i++) {
+            value_labels.push(i.toString());
+        }
+
+        var red = {
+            label: "Channel Red",
+            data: y_values1,
+            lineTension: 0,
+            fill: false,
+            borderColor: 'red'
+        };
+
+        var green = {
+            label: "Channel Green",
+            data: y_values2,
+            lineTension: 0,
+            fill: false,
+        borderColor: 'green'
+        };
+
+        var blue = {
+            label: "Channel Blue",
+            data: y_values3,
+            lineTension: 0,
+            fill: false,
+        borderColor: 'blue'
+        };
+
+        var colorData = {
+            labels: value_labels,
+            datasets: [red, green, blue]
+        };
+
+        var chartOptions = {
+            scales: {
+                x: {
+                    display: false
+                }
+            },
+            legend: {
+                display: true
+            }
+        };
+
+        var lineChart = new Chart(colorCanvas, {
+            type: 'line',
+            data: colorData,
+            options: chartOptions
+        });
+
+
+
+        const ctx2 = document.getElementById('BarChart2').getContext('2d');
+        
+        const myChart = new Chart(ctx2, {
             type: 'bar',
             data: {
                 labels: [ '{{ result2.model1_name }}', 
@@ -39,11 +164,45 @@
                 }
             }
         });
+
     });
+
 
 </script>
 {% endblock script %} 
 
 {% block content %}
-    <canvas id="BarChart"></canvas>
+
+<div class="row justify-content-center">
+    <div class="col-10 col-md-10 col-lg-10 col-xl-10">
+        <!-- Bar Chart -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Grey Level Pixel Intensity Graph</h6>
+            </div>
+            <div class="card-body">
+                <canvas id="BarChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-10 col-md-10 col-lg-10 col-xl-10">
+        <!-- Line Chart -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">RGB Channel Intensity Graph</h6>
+            </div>
+            <div class="card-body">
+                <canvas id="LineChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock content %}
+
+{% block content2 %}
+    <canvas id="BarChart2"></canvas>
+{% endblock content2 %}
